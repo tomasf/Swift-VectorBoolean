@@ -35,7 +35,7 @@ class ShapesTableViewController: UITableViewController {
   }
 
   override func viewWillAppear(_ animated: Bool) {
-    tableView.selectRow(at: IndexPath(item: currentSelection, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.middle)
+    tableView.selectRow(at: IndexPath(item: currentSelection, section: 0), animated: true, scrollPosition: .middle)
   }
 
   override func didReceiveMemoryWarning() {
@@ -44,7 +44,7 @@ class ShapesTableViewController: UITableViewController {
   }
 
 
-  func dismissVC() {
+  @objc func dismissVC() {
     self.dismiss(animated: true) {
       self.primeVC?.popClosed()
     }
@@ -69,7 +69,7 @@ class ShapesTableViewController: UITableViewController {
 
   override func tableView (_ _tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-    let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "testShapeCell")
+    let cell = UITableViewCell(style: .default, reuseIdentifier: "testShapeCell")
     if let shapeData = shapeData {
       let testShape = shapeData.shapes[indexPath.row]
       cell.textLabel!.text = testShape.label
@@ -77,7 +77,7 @@ class ShapesTableViewController: UITableViewController {
       cell.textLabel!.text = "Broken \(indexPath.row)"
     }
     if indexPath.row == currentSelection {
-      cell.accessoryType = UITableViewCellAccessoryType.checkmark
+      cell.accessoryType = .checkmark
     }
     return cell
   }

@@ -939,7 +939,7 @@ class FBBezierCurveData {
   //static void FBBezierCurveDataConvertSelfAndPoint(FBBezierCurveData me, NSPoint point, NSPoint *bezierPoints)
   func convertSelfAndPoint(_ point: CGPoint) -> [CGPoint]
   {
-    var selfPoints: [CGPoint] = [endPoint1, controlPoint1, controlPoint2, endPoint2]
+    let selfPoints: [CGPoint] = [endPoint1, controlPoint1, controlPoint2, endPoint2]
 
     // c[i] in the paper
     let distanceFromPoint = [
@@ -1453,7 +1453,7 @@ private func pfRefineParameter(_ me: FBBezierCurveData, parameter: Double, point
   //  f'(parameter) = (Q(parameter) - point) * Q''(parameter) + Q'(parameter) * Q'(parameter)
   //
 
-  var bezierPoints: [CGPoint] = [me.endPoint1, me.controlPoint1, me.controlPoint2, me.endPoint2]
+  let bezierPoints: [CGPoint] = [me.endPoint1, me.controlPoint1, me.controlPoint2, me.endPoint2]
 
   // Compute Q(parameter)
   let qAtParameter = BezierWithPoints(3, bezierPoints: bezierPoints, parameter: parameter, withCurves: false).point

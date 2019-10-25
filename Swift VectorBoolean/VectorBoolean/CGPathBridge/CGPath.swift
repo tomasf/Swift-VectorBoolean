@@ -8,20 +8,6 @@
 
 import QuartzCore
 
-typealias MyPathApplier = @convention(block) (UnsafePointer<CGPathElement>) -> Void
-// Note: You must declare MyPathApplier as @convention(block), because
-// if you don't, you get "fatal error: can't unsafeBitCast between
-// types of different sizes" at runtime, on Mac OS X at least.
-
-private func myPathApply(_ path: CGPath!, block: MyPathApplier) {
-  let callback: @convention(c) (UnsafeMutableRawPointer, UnsafePointer<CGPathElement>) -> Void = { (info, element) in
-    let block = unsafeBitCast(info, to: MyPathApplier.self)
-    block(element)
-  }
-
-  path.apply(info: unsafeBitCast(block, to: UnsafeMutableRawPointer.self), function: unsafeBitCast(callback, to: CGPathApplierFunction.self))
-}
-
 public enum PathElement {
   case move(to: CGPoint)
   case line(to: CGPoint)
@@ -33,7 +19,7 @@ public enum PathElement {
 public extension CGPath {
 
   func apply(_ fn: (PathElement) -> Void) {
-    myPathApply(self) { element in
+    applyWithBlock { element in
       let points = element.pointee.points
       switch (element.pointee.type) {
 
@@ -51,6 +37,8 @@ public extension CGPath {
 
       case .closeSubpath:
         fn(.close)
+        
+      default: break
       }
     }
   }
